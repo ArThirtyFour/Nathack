@@ -2,8 +2,6 @@ import urllib.request
 import json
 import os
 import time
-import mashina
-import base
 import banner
 COLOR_CODE = {
     "RESET": "\033[0m",
@@ -31,30 +29,41 @@ if select == '1':
         getInfo = urllib.request.urlopen(url)
     except:
         print("\nIp не найдено!\n")
-    infoList = json.load(getInfo)
+    try:
+        infoList = json.load(getInfo)
+    except:
+        pass
     def whoisIPinfo(ip):
         try:
             myComand = "whois " + getIP
             whoisInfo = os.popen(myComand).read()
             return whoisInfo
         except:
-            return "\n Ошибка \n"
-    print("IP: ", infoList["ip"])
-    print("Город: ", infoList["city"])
-    print("Регион: ", infoList["region"])
-    print("Страна: ", infoList["country"])
-    print("Провайдер: ", infoList["hostname"])
-    print("Координаты: ", infoList["loc"])
-    print("Временная зона: ", infoList["timezone"])
-    print("Индекс: ", infoList["postal"])
-    print("Орг: ", infoList["org"])
-    time.sleep(1)
-    print('')
+            return ""
+    try:
+        ip , city  =  infoList["ip"] , infoList["city"]
+        region , country = infoList["region"] , infoList["country"]
+        hostname , loc = infoList["hostname"] , infoList["loc"]
+        timezone , postal , org = infoList["timezone"] , infoList["postal"]  , infoList["org"]
+        print(f"""
+IP: {ip}
+Город: {city}
+Регион : {region}
+Страна: {country}
+Провайдер: {hostname}
+Координаты: {loc}
+Временная зона: {timezone}
+Индекс:{postal}
+Орг: {org}
+""")
+        time.sleep(1)
+    except:
+        pass
+
 if select == '3':
-    print('Для пробива перейдите в бота:')
-    print(mashina.bot)
+    print('Для пробива перейдите в бота: https://t.me/BotAvinfo_bot')
 if select == '4':
-    print(base.base)
+    print('Базы данных: https://drive.google.com/drive/folders/1YZYHUV3f8sgW6PQOqjCWmNWvKIxC5u0D?usp=sharing')
 if select == '2':
     username = input("Введите юсернейм: ")
     print("Проверьте эти ссылки: ")
